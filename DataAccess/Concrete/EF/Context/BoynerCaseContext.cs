@@ -1,5 +1,4 @@
 ﻿using Core.Entities;
-using Core.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,17 +11,15 @@ namespace DataAccess.Concrete.EF.Context
 {
     public class BoynerCaseContext:DbContext
     {
-        public BoynerCaseContext()
+        public BoynerCaseContext():base()
         {
-             
+
         }
+        public BoynerCaseContext(DbContextOptions<BoynerCaseContext> options) : base(options) { }
+      
 
         public DbSet<Product> Product { get; set; }
         public DbSet<ProductCategory> ProductCategory { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(AppSettings.CaseConnectionString);
-        }
     }
 }

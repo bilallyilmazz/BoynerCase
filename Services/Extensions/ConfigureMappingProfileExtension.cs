@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
-using Core.Dtos.Product;
 using Core.Entities;
 using Microsoft.Extensions.DependencyInjection;
+using Services.CQRS.MediatorPattern.Commands;
+using Services.CQRS.MediatorPattern.Queries;
 
 namespace Services.Extensions
 {
@@ -23,10 +24,14 @@ namespace Services.Extensions
     {
         public AutoMapperMappingProfile()
         {
-            CreateMap<Product, ProductDto>()
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price + "TL"))
+            CreateMap<Product, GetProductViewModel>()
+                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price + "TL"));
 
-                .ReverseMap();
+
+            CreateMap<CreateProductCommand, Product>()
+               .ForMember(x => x.Id, y => y.MapFrom(z => 0))
+
+               .ReverseMap();
 
         }
     }

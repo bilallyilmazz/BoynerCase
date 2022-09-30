@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Core.DataAccess
 {
-    public interface IRepository<T> where T : class,new()
+    public interface IRepository<T> where T : class,IAuditableEntity
     {
-        T Find(Expression<Func<T, bool>> Filter = null);
+        T Find(Expression<Func<T, bool>> Filter = null, params Expression<Func<T, object>>[] includes);
         T FindById(object EntityId);
         IEnumerable<T> Select(Expression<Func<T, bool>> Filter = null);
-        T Insert(T Entity);
-        T Update(T Entity);
-        T SoftDelete(object EntityId);
+        int Insert(T Entity);
+        int Update(T Entity);
+        int SoftDelete(object EntityId);
         
     }
 }

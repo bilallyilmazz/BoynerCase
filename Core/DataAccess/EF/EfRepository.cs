@@ -9,113 +9,71 @@ using System.Threading.Tasks;
 
 namespace Core.DataAccess.EF
 {
-    public class EfRepository<TEntity, TContext> : IRepository<TEntity> 
-        where TEntity : AuditableEntity,new()
-        where TContext : DbContext,new()
+    public class EfRepository<TEntity> : IRepository<TEntity>
+        where TEntity : class, IAuditableEntity
+
     {
-        public virtual TEntity SoftDelete(object EntityId)
+        private readonly DbContext _dbContext;
+
+        public EfRepository(DbContext dbContext)
         {
-            try
-            {
-                using (var context=new TContext())
-                {
-                   TEntity entityDelete = FindById(EntityId);
-                    entityDelete.IsActive = false;
-
-                    return Update(entityDelete);
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            _dbContext = dbContext;
+        }
+        public virtual int SoftDelete(object EntityId)
+        {
+            var delete = FindById(EntityId);
+            delete.IsActive = false;
+            return Update(delete);
         }
 
-        public virtual TEntity Find(Expression<Func<TEntity, bool>> Filter = null)
+        public virtual TEntity Find(Expression<Func<TEntity, bool>> Filter = null, params Expression<Func<TEntity, object>>[] includes)
         {
-            try
+            IQueryable<TEntity> query = _dbContext.Set<TEntity>();
+
+            if (includes.Length > 0)
             {
-                using (var context = new TContext())
+                foreach (var item in includes)
                 {
-                    return context.Set<TEntity>().FirstOrDefault(Filter);
+                    query = query.Include(item);
                 }
             }
-            catch (Exception ex)
-            {
 
-                throw;
-            }
+
+            return query.FirstOrDefault(Filter);
+
+
         }
 
         public virtual TEntity FindById(object EntityId)
         {
-            try
-            {
-                using (var context = new TContext())
-                {
-                    return context.Set<TEntity>().Find(EntityId);
-                }
-            }
-            catch (Exception ex)
-            {
 
-                throw;
-            }
+            return _dbContext.Set<TEntity>().Find(EntityId);
+
         }
 
-        public virtual TEntity Insert(TEntity Entity)
+        public virtual int Insert(TEntity Entity)
         {
-            try
-            {
-                using (var context = new TContext())
-                {
-                   var add=context.Entry(Entity);
-                    add.State= EntityState.Added;
-                    context.SaveChanges();
-                    return Entity;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            var add = _dbContext.Entry(Entity);
+            add.State = EntityState.Added;
+            return _dbContext.SaveChanges();
+    
         }
 
         public virtual IEnumerable<TEntity> Select(Expression<Func<TEntity, bool>> Filter = null)
         {
-            try
-            {
-                using (var context = new TContext())
-                {
-                    return context.Set<TEntity>().Where(Filter);
-                }
-            }
-            catch (Exception ex)
-            {
 
-                throw;
-            }
+            return _dbContext.Set<TEntity>().Where(Filter);
+
         }
 
-        public virtual TEntity Update(TEntity Entity)
+        public virtual int Update(TEntity Entity)
         {
-            try
-            {
-                using (var context = new TContext())
-                {
-                    var add = context.Entry(Entity);
-                    add.State = EntityState.Modified;
-                    context.SaveChanges();
-                    return Entity;
-                }
-            }
-            catch (Exception ex)
-            {
 
-                throw;
-            }
+            var add = _dbContext.Entry(Entity);
+            add.State = EntityState.Modified;
+            return _dbContext.SaveChanges();
+
+
         }
     }
 }

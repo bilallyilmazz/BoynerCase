@@ -10,7 +10,11 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EF
 {
-    public class ProductCategoryRepository : EfRepository<ProductCategory, BoynerCaseContext>, IProductCategoryRepository
+    public class ProductCategoryRepository : EfRepository<ProductCategory>, IProductCategoryRepository
     {
+        public ProductCategoryRepository(BoynerCaseContext context) : base(context)
+        {
+
+        }
     }
 }
