@@ -4,6 +4,7 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.EF;
 using DataAccess.Concrete.EF.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Services.DependencyResolvers;
 using Services.Extensions;
 
@@ -28,8 +29,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.DISet();
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,7 +37,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseAuthorization();
 
 app.MapControllers();

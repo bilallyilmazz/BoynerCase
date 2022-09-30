@@ -1,6 +1,8 @@
 ﻿using Core.DataAccess.EF;
+using Core.Entities;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EF;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -18,7 +20,6 @@ namespace Services.DependencyResolvers
     {
             //Mediator
             services.AddMediatR(Assembly.GetExecutingAssembly());
-
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();

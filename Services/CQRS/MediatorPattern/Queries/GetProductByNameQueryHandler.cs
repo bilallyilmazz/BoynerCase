@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Entities;
+using Core.Model;
 using DataAccess.Abstract;
 using MediatR;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Services.CQRS.MediatorPattern.Queries
 {
-    public class GetProductByNameQueryHandler : IRequestHandler<GetProductByNameQuery, GetProductViewModel>
+    public class GetProductByNameQueryHandler : IRequestHandler<GetProductByNameQuery, BaseResponse<GetProductViewModel>>
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
@@ -22,13 +23,14 @@ namespace Services.CQRS.MediatorPattern.Queries
         }
 
 
-        public Task<GetProductViewModel> Handle(GetProductByNameQuery request, CancellationToken cancellationToken)
+        public Task<BaseResponse<GetProductViewModel>> Handle(GetProductByNameQuery request, CancellationToken cancellationToken)
         {
             var productResult = _productRepository.Find(x => x.IsActive && x.Name == request.Name);
 
             GetProductViewModel result = _mapper.Map<GetProductViewModel>(productResult);
 
-            return Task.FromResult(result);
+            return Task.FromResult(new BaseResponse<GetProductViewModel>().Success(result));
+
         }
     }
 }

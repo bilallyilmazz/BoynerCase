@@ -59,10 +59,20 @@ namespace Core.DataAccess.EF
     
         }
 
-        public virtual IEnumerable<TEntity> Select(Expression<Func<TEntity, bool>> Filter = null)
+        public virtual IEnumerable<TEntity> Select(Expression<Func<TEntity, bool>> Filter = null, params Expression<Func<TEntity, object>>[] includes)
         {
+            IQueryable<TEntity> query = _dbContext.Set<TEntity>();
 
-            return _dbContext.Set<TEntity>().Where(Filter);
+            if (includes.Length > 0)
+            {
+                foreach (var item in includes)
+                {
+                    query = query.Include(item);
+                }
+            }
+
+
+            return query.Where(Filter);
 
         }
 

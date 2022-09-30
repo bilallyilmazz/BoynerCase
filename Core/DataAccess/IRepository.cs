@@ -12,7 +12,7 @@ namespace Core.DataAccess
     {
         T Find(Expression<Func<T, bool>> Filter = null, params Expression<Func<T, object>>[] includes);
         T FindById(object EntityId);
-        IEnumerable<T> Select(Expression<Func<T, bool>> Filter = null);
+        IEnumerable<T> Select(Expression<Func<T, bool>> Filter = null, params Expression<Func<T, object>>[] includes);
         int Insert(T Entity);
         int Update(T Entity);
         int SoftDelete(object EntityId);

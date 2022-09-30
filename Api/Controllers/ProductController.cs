@@ -20,7 +20,8 @@ namespace Api.Controllers
         [HttpPost("insert")]
         public async Task<IActionResult> Insert(CreateProductCommand command)
         {
-            return Ok(await _mediator.Send(command));
+            //return Ok(await _mediator.Send(command));
+            return BadRequest();
         }
         [HttpGet("getbyname")]
         public async Task<IActionResult> GetByName(string name)
@@ -28,10 +29,10 @@ namespace Api.Controllers
             var query= new GetProductByNameQuery() { Name=name };
             return Ok(await _mediator.Send(query));
         }
-        [HttpGet("getbycategoryid")]
-        public async Task<IActionResult> GetAllByCategoryId(int categoryId)
+        [HttpGet("getbycategoryname")]
+        public async Task<IActionResult> GetAllByCategoryId(string name)
         {
-            var query = new GetAllProductByCategoryNameQuery() { CategoryId = categoryId };
+            var query = new GetAllProductByCategoryNameQuery() { CategoryName = name };
             return Ok(await _mediator.Send(query));
         }
     }

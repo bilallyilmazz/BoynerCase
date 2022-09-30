@@ -24,6 +24,7 @@ namespace Services.Extensions
     {
         public AutoMapperMappingProfile()
         {
+            
             CreateMap<Product, GetProductViewModel>()
                 .ForMember(x => x.Price, y => y.MapFrom(z => z.Price + "TL"));
 

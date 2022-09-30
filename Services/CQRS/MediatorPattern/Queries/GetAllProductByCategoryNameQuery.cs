@@ -10,6 +10,6 @@ namespace Services.CQRS.MediatorPattern.Queries
 {
     public class GetAllProductByCategoryNameQuery: IRequest<BaseResponse<List<GetProductViewModel>>>
     {
-        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
     }
 }

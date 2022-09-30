@@ -23,7 +23,7 @@ namespace Services.CQRS.MediatorPattern.Queries
 
         public Task<BaseResponse<List<GetProductViewModel>>> Handle(GetAllProductByCategoryNameQuery request, CancellationToken cancellationToken)
         {
-            var productResult = _productRepository.Select(x => x.IsActive && x.ProductCategoryId == request.CategoryId).ToList();
+            var productResult = _productRepository.Select(x => x.IsActive && x.ProductCategory.Name == request.CategoryName,x=>x.ProductCategory).ToList();
 
             var result = _mapper.Map<List<GetProductViewModel>>(productResult);
 
