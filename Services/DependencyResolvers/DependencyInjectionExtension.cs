@@ -2,6 +2,7 @@
 using Core.Entities;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EF;
+using DataAccess.UnitOfWork;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,9 @@ namespace Services.DependencyResolvers
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+            services.AddScoped<IAttributeRepository, AttributeRepository>();
+            services.AddScoped<IAttributeValueRepository, AttributeValueRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
             return services;

@@ -26,13 +26,16 @@ namespace Services.Extensions
         {
             
             CreateMap<Product, GetProductViewModel>()
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price + "TL"));
+                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price + "TL"))
+                .ForMember(d => d.AttributeKey, opt => opt.MapFrom(s => s.ProductAttributes.Select(x => new KeyValuePair<string, string>(x.AttributeValue.Attribute.Name, x.AttributeValue.Name)).ToList()));
 
 
             CreateMap<CreateProductCommand, Product>()
                .ForMember(x => x.Id, y => y.MapFrom(z => 0))
 
                .ReverseMap();
+
+            
 
         }
     }

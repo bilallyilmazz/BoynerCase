@@ -12,7 +12,6 @@ namespace Core.Mappings
         public ProductCategoryMap()
         {
             Property(p => p.Name).IsRequired().HasMaxLength(300);
-            Property(p => p.CategoryAttributes).IsRequired();
 
             ToTable("ProductCategory");
         }

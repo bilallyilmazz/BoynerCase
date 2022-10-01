@@ -4,18 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Attribute = Core.Entities.Attribute;
 
 namespace Core.Mappings
 {
-    public class ProductMap: BaseEntityMap<Product>
+    public class AttributeMap:BaseEntityMap<Attribute>
     {
-        public ProductMap()
+        public AttributeMap()
         {
             Property(p => p.Name).IsRequired().HasMaxLength(300);
-            Property(p => p.Price).IsRequired();
-            HasRequired(p => p.ProductCategory);
-            ToTable("Product");
 
+            ToTable("Attribute");
         }
     }
 }

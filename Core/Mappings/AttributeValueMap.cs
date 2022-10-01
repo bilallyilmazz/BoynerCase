@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 
 namespace Core.Mappings
 {
-    public class ProductMap: BaseEntityMap<Product>
+    public class AttributeValueMap:BaseEntityMap<AttributeValue>
     {
-        public ProductMap()
+        public AttributeValueMap()
         {
             Property(p => p.Name).IsRequired().HasMaxLength(300);
-            Property(p => p.Price).IsRequired();
-            HasRequired(p => p.ProductCategory);
-            ToTable("Product");
+            Property(p => p.AttributeId).IsRequired();
 
+            ToTable("AttributeValue");
         }
     }
 }

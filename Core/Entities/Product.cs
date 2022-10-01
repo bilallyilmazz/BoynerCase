@@ -10,10 +10,23 @@ namespace Core.Entities
     public class Product:AuditableEntity
     {
         public int ProductCategoryId { get; set; }
-        public int ProductAttributes { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
         [ForeignKey("ProductCategoryId")]
         public virtual ProductCategory ProductCategory { get; set; }
+        public virtual List<ProductAttribute> ProductAttributes { get;  set; }
+        public Product()
+        {
+            ProductAttributes=new List<ProductAttribute>();
+        }
+
+        public void AddAttributeValue(AttributeValue attributeValue)
+        {
+            
+
+            this.ProductAttributes.Add(new ProductAttribute() { ProductId=this.Id,AttributeValueId=attributeValue.Id});
+        }
     }
+
+
 }

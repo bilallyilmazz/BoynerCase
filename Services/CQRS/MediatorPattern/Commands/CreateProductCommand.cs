@@ -1,4 +1,5 @@
 ﻿
+using Core.Model;
 using MediatR;
 using Services.CQRS.MediatorPattern.Queries;
 using System;
@@ -9,10 +10,15 @@ using System.Threading.Tasks;
 
 namespace Services.CQRS.MediatorPattern.Commands
 {
-    public class CreateProductCommand:IRequest<int>
+    public class CreateProductCommand:IRequest<BaseResponse<string>>
     {
+        public CreateProductCommand()
+        {
+            this.ProductAttributeValues = new List<int>();
+
+        }
         public int ProductCategoryId { get; set; }
-        public int ProductAttributes { get; set; }
+        public List<int> ProductAttributeValues { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
     }

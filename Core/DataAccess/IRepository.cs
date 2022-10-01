@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace Core.DataAccess
 {
-    public interface IRepository<T> where T : class,IAuditableEntity
+
+    public interface IRepository<T>  where T : class,IAuditableEntity
     {
         T Find(Expression<Func<T, bool>> Filter = null, params Expression<Func<T, object>>[] includes);
         T FindById(object EntityId);
         IEnumerable<T> Select(Expression<Func<T, bool>> Filter = null, params Expression<Func<T, object>>[] includes);
-        int Insert(T Entity);
+        Task<T> Insert(T Entity);
         int Update(T Entity);
         int SoftDelete(object EntityId);
         

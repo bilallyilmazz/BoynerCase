@@ -1,12 +1,9 @@
 ﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-
+using DbContext = Microsoft.EntityFrameworkCore.DbContext;
 namespace Core.DataAccess.EF
 {
     public class EfRepository<TEntity> : IRepository<TEntity>
@@ -38,7 +35,7 @@ namespace Core.DataAccess.EF
                 }
             }
 
-
+            query = query.Where(x=>x.IsActive);
             return query.FirstOrDefault(Filter);
 
 
@@ -46,17 +43,22 @@ namespace Core.DataAccess.EF
 
         public virtual TEntity FindById(object EntityId)
         {
+            DbSet<TEntity> query = _dbContext.Set<TEntity>();
+            query.Where(x => x.IsActive);
+            query.Find(EntityId);
 
-            return _dbContext.Set<TEntity>().Find(EntityId);
-
+            return query.FirstOrDefault();
         }
 
-        public virtual int Insert(TEntity Entity)
+        public async Task<TEntity> Insert(TEntity Entity)
         {
-            var add = _dbContext.Entry(Entity);
-            add.State = EntityState.Added;
-            return _dbContext.SaveChanges();
-    
+            _dbContext.Set<TEntity>().Add(Entity);
+
+            //var add = _dbContext.Entry(Entity);
+            //add.State = EntityState.Added;
+            //return _dbContext.SaveChanges();
+            return await Task.FromResult<TEntity>(Entity);
+
         }
 
         public virtual IEnumerable<TEntity> Select(Expression<Func<TEntity, bool>> Filter = null, params Expression<Func<TEntity, object>>[] includes)
@@ -71,19 +73,24 @@ namespace Core.DataAccess.EF
                 }
             }
 
-
+           
+            query = query.Where(x => x.IsActive);
             return query.Where(Filter);
 
         }
 
         public virtual int Update(TEntity Entity)
         {
+            var xx = _dbContext.Set<TEntity>().Update(Entity);
 
-            var add = _dbContext.Entry(Entity);
-            add.State = EntityState.Modified;
-            return _dbContext.SaveChanges();
+            //var add = _dbContext.Entry(Entity);
+            //add.State = EntityState.Modified;
+            //return _dbContext.SaveChanges();
 
-
+            return 1;
         }
+
+
+
     }
 }

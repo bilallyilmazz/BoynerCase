@@ -11,12 +11,12 @@ namespace Core.Model
     public class BaseResponse<T>
     {
         public bool Status { get; set; }
-        public T Data { get; set; }
+        public T Response { get; set; }
         public string ErrorMessage { get; set; }
 
         public BaseResponse<T> Success(T data)
         {
-            return new BaseResponse<T> { Status = true, Data = data };
+            return new BaseResponse<T> { Status = true, Response = data };
         }
 
         public BaseResponse<T> Fail(string message)

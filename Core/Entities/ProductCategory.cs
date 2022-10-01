@@ -9,6 +9,7 @@ namespace Core.Entities
     public class ProductCategory:AuditableEntity
     {
         public string Name { get; set; }
-        public int CategoryAttributes { get; set; }
+        public virtual ICollection<Product> Products { get;  set; }
+        public virtual ICollection<CategoryAttribute> CategoryAtrributes { get;  set; }
     }
 }

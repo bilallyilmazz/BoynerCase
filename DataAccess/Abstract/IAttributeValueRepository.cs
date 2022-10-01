@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IProductRepository:IRepository<Product>
+    public interface IAttributeValueRepository : IRepository<AttributeValue>
     {
-        List<Product> GetProductByFilter(string? name, decimal? minimumPrice, decimal? maximumPrice, string? categoryName);
+        List<AttributeValue> GetAllByIds(List<int> ids);
     }
 }
