@@ -3,7 +3,6 @@ using Core.Entities;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EF;
 using DataAccess.UnitOfWork;
-using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
