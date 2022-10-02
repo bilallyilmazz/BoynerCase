@@ -1,4 +1,5 @@
 
+using Api;
 using Core.DataAccess;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EF;
@@ -34,9 +35,11 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    
 }
+app.UseSwagger();
+app.UseSwaggerUI();
+app.CreateDb();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -5,6 +5,7 @@ using DataAccess.Concrete.EF;
 using DataAccess.UnitOfWork;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Services.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,9 @@ namespace Services.DependencyResolvers
             services.AddScoped<IAttributeValueRepository, AttributeValueRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            //redis
 
+            services.AddSingleton<IDistributedCacheManager,RedisCacheManager>();
             return services;
     }
 }

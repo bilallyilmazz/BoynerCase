@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  boynerapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5002
+      - ConnectionStrings__DefaultConnection=Data Source=s_sqlserver;Initial Catalog=BoynerCaseDb;Persist Security Info=true;User ID=sa;Password=1q2w3e4r5T!
+      - ConnectionStrings__Redis=s_redis
+    ports:
+      - "5002:5002"
+    depends_on:
+      - s_sqlserver
+
+
+  s_sqlserver:
+    user: root
+    ports:
+      - 1433:1433 
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=1q2w3e4r5T!
+    volumes:
+      - sqlserver_data:/var/opt/mssql/data
+      - sqlserver_log:/var/opt/mssql/log
+
+  s_redis:
+    volumes:
+      - redis_data:/data
+    ports:
+      - 6379:6379
+
+volumes:
+  sqlserver_data:
+  sqlserver_log:
+  redis_data:
+

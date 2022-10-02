@@ -3,6 +3,7 @@ using Core.Entities;
 using Core.Model;
 using DataAccess.Abstract;
 using MediatR;
+using Services.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,13 @@ namespace Services.CQRS.MediatorPattern.Queries
 {
     public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, BaseResponse<List<GetProductViewModel>>>
     {
+        private readonly IDistributedCacheManager _redis;
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
-        public GetProductsQueryHandler(IMapper mapper, IProductRepository productRepository)
+        public GetProductsQueryHandler(IMapper mapper, IProductRepository productRepository, IDistributedCacheManager redis)
         {
+            _redis=redis;
             _productRepository = productRepository;
             _mapper = mapper;
         }
