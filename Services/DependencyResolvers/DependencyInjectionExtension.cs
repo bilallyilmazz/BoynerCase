@@ -29,8 +29,8 @@ namespace Services.DependencyResolvers
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ICategoryAttributeRepository, CategoryAttributeRepository>();
             //redis
+            services.AddSingleton<ICacheService, RedisCacheService>();
 
-            //services.AddSingleton<IDistributedCacheManager,RedisCacheManager>();
             return services;
     }
 }

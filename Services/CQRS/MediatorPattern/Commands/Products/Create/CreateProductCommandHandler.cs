@@ -5,7 +5,9 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.EF;
 using DataAccess.UnitOfWork;
 using MediatR;
+using Newtonsoft.Json;
 using Services.CQRS.MediatorPattern.Queries;
+using Services.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,8 @@ namespace Services.CQRS.MediatorPattern.Commands.Products.Create
 {
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, BaseResponse<string>>
     {
+        public ICacheService CacheService { get; }
+
         private IProductRepository _productRepository;
         private IAttributeValueRepository _attributeValueRepository;
         private IMapper _mapper;
@@ -24,12 +28,14 @@ namespace Services.CQRS.MediatorPattern.Commands.Products.Create
             IMapper mapper,
             IProductRepository productRepository,
             IAttributeValueRepository attributeValueRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            ICacheService cacheService)
         {
             _productRepository = productRepository;
             _mapper = mapper;
             _attributeValueRepository = attributeValueRepository;
             _unitOfWork = unitOfWork;
+            CacheService = cacheService;
         }
         public async Task<BaseResponse<string>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
@@ -54,6 +60,7 @@ namespace Services.CQRS.MediatorPattern.Commands.Products.Create
 
             var result = await _unitOfWork.CommitTransactionAsync(transaction);
 
+          var resulRedis= await CacheService.SetValueAsync($"product_insert_{productEntity.Id}",JsonConvert.SerializeObject(productEntity));
 
             return new BaseResponse<string>() { Status = result, Response = "Success", ErrorMessage = null };
         }

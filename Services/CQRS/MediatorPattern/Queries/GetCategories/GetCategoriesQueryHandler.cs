@@ -5,6 +5,7 @@ using DataAccess.Abstract;
 using DataAccess.UnitOfWork;
 using MediatR;
 using Services.CQRS.MediatorPattern.Queries.GetProducts;
+using Services.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +16,21 @@ namespace Services.CQRS.MediatorPattern.Queries.GetCategories
 {
     public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, BaseResponse<List<GetCategoryViewModel>>>
     {
+        public ICacheService CacheService { get; }
         private readonly IProductCategoryRepository _productCategoryRepository;
         private IUnitOfWork _unitOfWork;
         ICategoryAttributeRepository _attributeRepository;
-        public GetCategoriesQueryHandler(IProductCategoryRepository productCategoryRepository, IUnitOfWork unitOfWork, ICategoryAttributeRepository attributeRepository)
+        public GetCategoriesQueryHandler(IProductCategoryRepository productCategoryRepository, IUnitOfWork unitOfWork, ICategoryAttributeRepository attributeRepository, ICacheService cacheService)
         {
             _productCategoryRepository = productCategoryRepository;
             _unitOfWork = unitOfWork;
             _attributeRepository = attributeRepository;
+            CacheService = cacheService;
         }
 
         public async Task<BaseResponse<List<GetCategoryViewModel>>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
+
             var categories = _productCategoryRepository.GetCategorytByFilter(request.Name);
 
             if (categories == null || categories.Count==0)
