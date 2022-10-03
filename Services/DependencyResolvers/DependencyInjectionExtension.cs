@@ -27,10 +27,10 @@ namespace Services.DependencyResolvers
             services.AddScoped<IAttributeRepository, AttributeRepository>();
             services.AddScoped<IAttributeValueRepository, AttributeValueRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+            services.AddScoped<ICategoryAttributeRepository, CategoryAttributeRepository>();
             //redis
 
-            services.AddSingleton<IDistributedCacheManager,RedisCacheManager>();
+            //services.AddSingleton<IDistributedCacheManager,RedisCacheManager>();
             return services;
     }
 }

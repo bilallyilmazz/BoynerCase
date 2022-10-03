@@ -16,11 +16,11 @@ namespace Core.DataAccess.EF
         {
             _dbContext = dbContext;
         }
-        public virtual int SoftDelete(object EntityId)
+        public async Task<TEntity> SoftDelete(object EntityId)
         {
             var delete = FindById(EntityId);
             delete.IsActive = false;
-            return Update(delete);
+            return await Update(delete);
         }
 
         public virtual TEntity Find(Expression<Func<TEntity, bool>> Filter = null, params Expression<Func<TEntity, object>>[] includes)
@@ -79,7 +79,7 @@ namespace Core.DataAccess.EF
 
         }
 
-        public virtual int Update(TEntity Entity)
+        public async Task<TEntity> Update(TEntity Entity)
         {
             var xx = _dbContext.Set<TEntity>().Update(Entity);
 
@@ -87,7 +87,8 @@ namespace Core.DataAccess.EF
             //add.State = EntityState.Modified;
             //return _dbContext.SaveChanges();
 
-            return 1;
+            return await Task.FromResult<TEntity>(Entity);
+
         }
 
 

@@ -24,7 +24,7 @@ namespace Services.Redis
             {
                 Configuration=connectionString
             };
-            _connectionMultiplexer = ConnectionMultiplexer.Connect(connectionString);
+            _connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
         }
 
 

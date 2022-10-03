@@ -8,13 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.CQRS.MediatorPattern.Commands
+namespace Services.CQRS.MediatorPattern.Commands.Products.Create
 {
-    public class CreateProductCommand:IRequest<BaseResponse<string>>
+    public class CreateProductCommand : IRequest<BaseResponse<string>>
     {
         public CreateProductCommand()
         {
-            this.ProductAttributeValues = new List<int>();
+            ProductAttributeValues = new List<int>();
 
         }
         public int ProductCategoryId { get; set; }

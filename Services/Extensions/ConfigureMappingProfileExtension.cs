@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Core.Entities;
 using Microsoft.Extensions.DependencyInjection;
-using Services.CQRS.MediatorPattern.Commands;
-using Services.CQRS.MediatorPattern.Queries;
+using Services.CQRS.MediatorPattern.Commands.ProductCategories.Create;
+using Services.CQRS.MediatorPattern.Commands.Products.Create;
+using Services.CQRS.MediatorPattern.Queries.GetProducts;
 
 namespace Services.Extensions
 {
@@ -35,7 +36,9 @@ namespace Services.Extensions
 
                .ReverseMap();
 
-            
+            CreateMap<CreateCategoryCommand, ProductCategory>()
+               .ForMember(x => x.Id, y => y.MapFrom(z => 0));
+
 
         }
     }

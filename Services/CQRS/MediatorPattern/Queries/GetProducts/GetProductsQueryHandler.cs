@@ -10,17 +10,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.CQRS.MediatorPattern.Queries
+namespace Services.CQRS.MediatorPattern.Queries.GetProducts
 {
     public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, BaseResponse<List<GetProductViewModel>>>
     {
-        private readonly IDistributedCacheManager _redis;
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
-        public GetProductsQueryHandler(IMapper mapper, IProductRepository productRepository, IDistributedCacheManager redis)
+        public GetProductsQueryHandler(IMapper mapper, IProductRepository productRepository)
         {
-            _redis=redis;
             _productRepository = productRepository;
             _mapper = mapper;
         }
@@ -28,10 +26,10 @@ namespace Services.CQRS.MediatorPattern.Queries
         {
             List<Product> products = _productRepository.GetProductByFilter(request.Name, request.MinimumPrice, request.MaximumPrice, request.CategoryName);
 
-            List<GetProductViewModel> productsViewModels = new List< GetProductViewModel >();
+            List<GetProductViewModel> productsViewModels = new List<GetProductViewModel>();
             foreach (Product product in products)
             {
-                var mapped= _mapper.Map<GetProductViewModel>(product);
+                var mapped = _mapper.Map<GetProductViewModel>(product);
                 var dictionary = new Dictionary<string, string>();
                 foreach (var item in mapped.AttributeKey)
                 {
@@ -41,8 +39,8 @@ namespace Services.CQRS.MediatorPattern.Queries
                 productsViewModels.Add(mapped);
             }
 
-            return  new BaseResponse<List<GetProductViewModel>>() { Status = true, Response = productsViewModels, ErrorMessage = null };
-            
+            return new BaseResponse<List<GetProductViewModel>>() { Status = true, Response = productsViewModels, ErrorMessage = null };
+
         }
     }
 }

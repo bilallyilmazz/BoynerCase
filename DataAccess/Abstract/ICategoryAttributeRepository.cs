@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IProductCategoryRepository : IRepository<ProductCategory>
+    public interface ICategoryAttributeRepository : IRepository<CategoryAttribute>
     {
-        List<ProductCategory> GetCategorytByFilter(string? name);
     }
 }

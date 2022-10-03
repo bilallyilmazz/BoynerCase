@@ -15,8 +15,8 @@ namespace Core.DataAccess
         T FindById(object EntityId);
         IEnumerable<T> Select(Expression<Func<T, bool>> Filter = null, params Expression<Func<T, object>>[] includes);
         Task<T> Insert(T Entity);
-        int Update(T Entity);
-        int SoftDelete(object EntityId);
+        Task<T> Update(T Entity);
+        Task<T> SoftDelete(object EntityId);
         
     }
 }

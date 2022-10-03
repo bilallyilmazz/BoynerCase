@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Services.CQRS.MediatorPattern.Queries
+namespace Services.CQRS.MediatorPattern.Queries.GetProducts
 {
     public class GetProductViewModel
     {

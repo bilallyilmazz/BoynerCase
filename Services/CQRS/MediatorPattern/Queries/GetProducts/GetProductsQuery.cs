@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.CQRS.MediatorPattern.Queries
+namespace Services.CQRS.MediatorPattern.Queries.GetProducts
 {
-    public class GetProductsQuery:IRequest<BaseResponse<List<GetProductViewModel>>>
+    public class GetProductsQuery : IRequest<BaseResponse<List<GetProductViewModel>>>
     {
         public string? Name { get; set; }
         public string? CategoryName { get; set; }

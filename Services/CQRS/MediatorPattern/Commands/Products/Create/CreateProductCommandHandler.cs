@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.CQRS.MediatorPattern.Commands
+namespace Services.CQRS.MediatorPattern.Commands.Products.Create
 {
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, BaseResponse<string>>
     {
@@ -49,14 +49,13 @@ namespace Services.CQRS.MediatorPattern.Commands
                     productEntity.AddAttributeValue(attributeValue);
                 }
 
-               //await _unitOfWork.SaveChangesAsync();
             }
             using var transaction = await _unitOfWork.BeginTransactionAsync();
 
-            var result=await _unitOfWork.CommitTransactionAsync(transaction);
+            var result = await _unitOfWork.CommitTransactionAsync(transaction);
 
 
-            return new BaseResponse<string>() { Status = result, Response = "Success",ErrorMessage=null };
+            return new BaseResponse<string>() { Status = result, Response = "Success", ErrorMessage = null };
         }
     }
 }

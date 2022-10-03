@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.CQRS.MediatorPattern.Queries
+namespace Services.CQRS.MediatorPattern.Queries.GetProducts
 {
     public class PriceRangeModel
     {
